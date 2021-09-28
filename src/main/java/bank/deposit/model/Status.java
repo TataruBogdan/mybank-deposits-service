@@ -1,4 +1,4 @@
-package bank.service.deposit.model;
+package bank.deposit.model;
 
 public enum Status {
     ACTIVE, CLOSED

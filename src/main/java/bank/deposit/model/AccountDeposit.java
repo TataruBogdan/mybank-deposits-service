@@ -1,21 +1,22 @@
-package bank.service.deposit.model;
+package bank.deposit.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
+@Table(name = "account_deposit")
 public class AccountDeposit {
 
     @Id
+    @Column(name = "iban")
     private String iban;
 
     private double depositAmount;

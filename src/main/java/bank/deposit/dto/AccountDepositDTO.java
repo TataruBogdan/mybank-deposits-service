@@ -1,13 +1,15 @@
-package bank.service.deposit.dto;
+package bank.deposit.dto;
 
 
-import bank.service.deposit.model.Status;
+import bank.deposit.model.Status;
+import banking.commons.dto.IndividualDTO;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class DepositDTO {
+public class AccountDepositDTO {
+
 
     private String iban;
 
@@ -20,4 +22,6 @@ public class DepositDTO {
     private String maturityIban;
     private Date startDate;
     private Status accountDepositStatus;
+
+    private IndividualDTO individual;
 }
