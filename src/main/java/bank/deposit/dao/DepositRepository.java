@@ -14,4 +14,5 @@ public interface DepositRepository extends JpaRepository<AccountDeposit,String> 
 
     List<AccountDeposit> findByIndividualId(int individualId);
 
+
 }

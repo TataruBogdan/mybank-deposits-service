@@ -5,12 +5,13 @@ import bank.deposit.model.Status;
 import banking.commons.dto.IndividualDTO;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 public class AccountDepositDTO {
 
-
+    @NotNull
     private String iban;
 
     private double depositAmount;

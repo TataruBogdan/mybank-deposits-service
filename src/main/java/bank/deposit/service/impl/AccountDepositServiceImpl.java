@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static bank.deposit.model.Status.ACTIVE;
@@ -50,7 +47,7 @@ public class AccountDepositServiceImpl implements AccountDepositService {
     }
 
     @Override
-    public List<AccountDepositDTO> getByIndividual(int individualId) {
+    public List<AccountDepositDTO> getAllByIndividual(int individualId) {
         return depositRepository.findByIndividualId(individualId)
                 .stream()
                 .map(accountDeposit -> accountDepositMapper.accountDepositToDTO(accountDeposit))
@@ -60,10 +57,7 @@ public class AccountDepositServiceImpl implements AccountDepositService {
     @Override
     public void deleteAccountDepositByIban(String iban) {
 
-        AccountDeposit accountDeposit = depositRepository.getById(iban);
-        depositRepository.delete(accountDeposit);
-
-
+        depositRepository.deleteById(iban);
     }
 
     @Override
@@ -74,10 +68,8 @@ public class AccountDepositServiceImpl implements AccountDepositService {
         accountDeposit.setDepositAmount(0.00);
         accountDeposit.setBalance(0.00);
         accountDeposit.setIndividualId(individualId);
-        // set maturity date after one year
-        //(LocalDate.now().plusYears(1)
-        accountDeposit.setMaturityDate(new Date());
         // set interest rate 1 an = 0.01
+        //TODO interestRate este o constanta in interfata AccountDeposit service - value 0.05
         accountDeposit.setInterestRate(0.00);
         accountDeposit.setSelfCapitalization(true);
         //is ok? maturity Iban is the same as the account Deposit
@@ -89,26 +81,63 @@ public class AccountDepositServiceImpl implements AccountDepositService {
         return accountDepositDTO;
     }
 
+    // Periodic Rate = Interest Rate * Time Period (12% *12 months)
+//    public double setMaturityAmount(String iban){
+//
+//        AccountDeposit depositRepositoryByIban = depositRepository.getById(iban);
+//        double depositAmount = depositRepositoryByIban.getDepositAmount();
+//
+//
+//
+//    }
+
     @Override
-    public AccountDepositDTO creditBalanceAccountDeposit(String iban, Double balance) {
+    public AccountDepositDTO creditBalanceAccountDeposit(String iban, Double amount) {
 
+
+//        double currentBalance = accountDeposit.getBalance();
+//        //TODO DATE IN DAYS/MONTHS/YEAR ???
+//        Date date = new Date();
+//        long currentDate = date.getTime();
+//        long startDate = accountDeposit.getStartDate().getTime();
+//        long maturityDate = accountDeposit.getMaturityDate().getTime();
+//        double interestRate = accountDeposit.getInterestRate();
+        // if account is opened the same DAY/MONTH/YEAR set balance amount - the amount that was deposed
+        //
+//        if(startDate != currentDate && currentDate != maturityDate) {
+//            accountDeposit.setBalance(currentBalance + interestRate);
+//        } else {
+//            accountDeposit.setBalance(accountDeposit.getDepositAmount());
+//        }
         AccountDeposit accountDeposit = depositRepository.getById(iban);
-
         double currentBalance = accountDeposit.getBalance();
-        accountDeposit.setBalance(currentBalance + balance);
+
+        accountDeposit.setBalance(currentBalance + amount);
         AccountDeposit savedAccountDeposit = depositRepository.save(accountDeposit);
 
         return accountDepositMapper.accountDepositToDTO(savedAccountDeposit);
     }
 
     @Override
-    public AccountDepositDTO debitBalanceAccountDeposit(String iban, Double balance) {
+    public AccountDepositDTO debitBalanceAccountDeposit(String iban, Double amount) {
+
         AccountDeposit accountDeposit = depositRepository.getById(iban);
 
         double currentBalance = accountDeposit.getBalance();
-        accountDeposit.setBalance(currentBalance - balance);
+        accountDeposit.setBalance(currentBalance - amount);
         depositRepository.save(accountDeposit);
 
         return accountDepositMapper.accountDepositToDTO(accountDeposit);
+    }
+
+    @Override
+    public AccountDepositDTO updateDepositAmount(String iban, Double deposit) {
+
+        AccountDeposit depositRepositoryById = depositRepository.getById(iban);
+        double depositAmount = depositRepositoryById.getDepositAmount();
+        depositRepositoryById.setDepositAmount(depositAmount + deposit);
+
+        return accountDepositMapper.accountDepositToDTO(depositRepositoryById);
+
     }
 }

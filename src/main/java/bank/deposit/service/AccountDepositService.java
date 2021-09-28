@@ -10,11 +10,13 @@ public interface AccountDepositService {
 
     List<AccountDepositDTO> getAll();
     Optional<AccountDepositDTO> getByIban(String iban);
-    List<AccountDepositDTO> getByIndividual(int individualId);
+    List<AccountDepositDTO> getAllByIndividual(int individualId);
     void deleteAccountDepositByIban(String iban);
     AccountDepositDTO createIndividualAccountDeposit(int individualId);
-    AccountDepositDTO creditBalanceAccountDeposit(String iban, Double balance);
-    AccountDepositDTO debitBalanceAccountDeposit(String iban, Double balance);
+    AccountDepositDTO creditBalanceAccountDeposit(String iban, Double amount);
+    AccountDepositDTO debitBalanceAccountDeposit(String iban, Double amount);
+    AccountDepositDTO updateDepositAmount(String iban, Double deposit);
+
 
 
 }

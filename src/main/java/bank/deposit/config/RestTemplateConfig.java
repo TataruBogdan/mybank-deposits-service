@@ -1,4 +1,4 @@
-package bank.deposit.Config;
+package bank.deposit.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
