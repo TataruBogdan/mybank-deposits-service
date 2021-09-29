@@ -22,7 +22,7 @@ public class AccountDeposit {
     private double depositAmount;
     private double balance;
     private int individualId;
-    private int maturityMonths;
+
     private double interestRate;
     private boolean selfCapitalization;
     private String maturityIban;
@@ -30,5 +30,6 @@ public class AccountDeposit {
 
     @Enumerated(EnumType.STRING)
     private Status accountDepositStatus;
+    private int maturityMonths;
 
 }

@@ -8,13 +8,14 @@ import java.util.Optional;
 
 public interface AccountDepositService {
 
+    // ??? este ok sa punem aici un camp - ??? de ce ???
+    double interestRate = 0.05;
+
     List<AccountDepositDTO> getAll();
     Optional<AccountDepositDTO> getByIban(String iban);
     List<AccountDepositDTO> getAllByIndividual(int individualId);
     void deleteAccountDepositByIban(String iban);
-    AccountDepositDTO createIndividualAccountDeposit(int individualId);
-    AccountDepositDTO creditBalanceAccountDeposit(String iban, Double amount);
-    AccountDepositDTO debitBalanceAccountDeposit(String iban, Double amount);
+    AccountDepositDTO createIndividualAccountDeposit(int individualId, int months, int amount);
     AccountDepositDTO updateDepositAmount(String iban, Double deposit);
 
 

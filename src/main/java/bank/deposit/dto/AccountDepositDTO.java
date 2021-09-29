@@ -13,11 +13,11 @@ public class AccountDepositDTO {
 
     @NotNull
     private String iban;
-
+    @NotNull
     private double depositAmount;
     private double balance;
     private int individualId;
-    private Date maturityDate;
+
     private double interestRate;
     private boolean selfCapitalization;
     private String maturityIban;
@@ -25,4 +25,6 @@ public class AccountDepositDTO {
     private Status accountDepositStatus;
 
     private IndividualDTO individual;
+    @NotNull
+    private int maturityMonths;
 }

@@ -1,6 +1,7 @@
 package bank.deposit.rest;
 
 import bank.deposit.dto.AccountDepositDTO;
+import bank.deposit.dto.ArgsDTO;
 import bank.deposit.service.AccountDepositService;
 import banking.commons.dto.IndividualDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-//TODO campul maturityDate - Date actuala + 1 an ??
-// TODO Get all accounts - individual NULL ??? - Select per Iban - merge
 
 @RestController
 @RequestMapping("/accounts-deposit")
@@ -27,13 +27,24 @@ public class AccountDepositController {
     private IndividualRestClient individualRestClient;
 
 
-    @GetMapping
-    public List<AccountDepositDTO> retrieveAllAccountsDeposit(){
-        return accountDepositService.getAll();
+    @GetMapping("/")
+    public ResponseEntity<List<AccountDepositDTO>> retrieveAllAccountsDeposit(){
+        List<AccountDepositDTO> allAccountsDeposit = accountDepositService.getAll();
+        if(allAccountsDeposit.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        List<AccountDepositDTO> newAccountsDeposits = new LinkedList<>();
+        for (AccountDepositDTO accountDTO : allAccountsDeposit) {
+            IndividualDTO individualId = individualRestClient.getIndividualById(accountDTO.getIndividualId());
+            accountDTO.setIndividual(individualId);
+            newAccountsDeposits.add(accountDTO);
+        }
+        return ResponseEntity.ok(newAccountsDeposits);
     }
 
     @GetMapping("/{iban}")
-    public ResponseEntity<AccountDepositDTO> retrieveAccountDepositByIban(@PathVariable String iban){
+    public ResponseEntity<AccountDepositDTO> retrieveAccountDepositByIban(@PathVariable("iban") String iban){
 
         Optional<AccountDepositDTO> accountDepositDTOByIban = accountDepositService.getByIban(iban);
 
@@ -68,12 +79,11 @@ public class AccountDepositController {
 
     //TODO - DE ADAUGAT MONTHS  si deposit amount-
     @PostMapping(value = "/create/individual/{id}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<AccountDepositDTO> createAccountDepositForIndividual(@PathVariable("id") int individualId){
-
-        AccountDepositDTO individualAccountDeposit = accountDepositService.createIndividualAccountDeposit(individualId);
+    public ResponseEntity<AccountDepositDTO> createAccountDepositForIndividual(@PathVariable("id") int individualId, @RequestBody ArgsDTO args ){
+        AccountDepositDTO individualAccountDeposit = accountDepositService.createIndividualAccountDeposit(individualId, args.getMonths(), args.getAmount());
+        individualAccountDeposit.setBalance(individualAccountDeposit.getDepositAmount());
         IndividualDTO individualById = individualRestClient.getIndividualById(individualId);
         individualAccountDeposit.setIndividual(individualById);
-
         return ResponseEntity.ok(individualAccountDeposit);
     }
 
