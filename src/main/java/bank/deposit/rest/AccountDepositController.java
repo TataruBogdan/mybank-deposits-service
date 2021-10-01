@@ -81,11 +81,21 @@ public class AccountDepositController {
     @PostMapping(value = "/create/individual/{id}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountDepositDTO> createAccountDepositForIndividual(@PathVariable("id") int individualId, @RequestBody ArgsDTO args ){
         AccountDepositDTO individualAccountDeposit = accountDepositService.createIndividualAccountDeposit(individualId, args.getMonths(), args.getAmount());
-        individualAccountDeposit.setBalance(individualAccountDeposit.getDepositAmount());
         IndividualDTO individualById = individualRestClient.getIndividualById(individualId);
         individualAccountDeposit.setIndividual(individualById);
         return ResponseEntity.ok(individualAccountDeposit);
     }
+
+//    @PatchMapping("credit/{iban}")
+//    public ResponseEntity<AccountDepositDTO> creditAccountDepositForIban (@PathVariable("iban") String iban ,@RequestBody CreditAmountDepositDTO amount){
+//
+//        Optional<AccountDepositDTO> accountDepositDTO = accountDepositService.getByIban(iban);
+//        IndividualDTO individualById = individualRestClient.getIndividualById(accountDepositDTO.get().getIndividualId());
+//        AccountDepositDTO creditAccountDepositDTO = accountDepositService.creditAccountDeposit(iban, amount.getAmount());
+//        creditAccountDepositDTO.setIndividual(individualById);
+//
+//        return ResponseEntity.ok(creditAccountDepositDTO);
+//    }
 
 
 

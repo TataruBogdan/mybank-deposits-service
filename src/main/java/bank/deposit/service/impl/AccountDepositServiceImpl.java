@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static bank.deposit.idGen.IdGenerator.idGen;
 import static bank.deposit.model.Status.ACTIVE;
 
 @RequiredArgsConstructor
@@ -62,14 +63,13 @@ public class AccountDepositServiceImpl implements AccountDepositService {
     public AccountDepositDTO createIndividualAccountDeposit(int individualId, int months, int amount) {
 
         AccountDeposit accountDeposit = new AccountDeposit();
-        accountDeposit.setIban(UUID.randomUUID().toString());
+        accountDeposit.setIban(idGen("DEP"));
         accountDeposit.setDepositAmount(amount);
-        accountDeposit.setBalance(0); //TODO este ok asa sau trebuie sa-l adug la crearea contului in Impl ???
+        accountDeposit.setBalance(amount);
         accountDeposit.setIndividualId(individualId);
         //TODO interestRate este o constanta in interfata AccountDepositService - value 0.05
         accountDeposit.setInterestRate(interestRate);
         accountDeposit.setSelfCapitalization(true);
-        //is ok? maturity Iban is the same as the account Deposit
         accountDeposit.setMaturityIban(accountDeposit.getIban());
         accountDeposit.setStartDate(new Date());
         accountDeposit.setAccountDepositStatus(ACTIVE);
@@ -81,37 +81,14 @@ public class AccountDepositServiceImpl implements AccountDepositService {
 
 
 //    @Override
-//    public AccountDepositDTO creditBalanceAccountDeposit(String iban, Double amount) {
+//    public AccountDepositDTO creditAccountDeposit(String iban, Double amount) {
 //
 //        AccountDeposit accountDeposit = depositRepository.getById(iban);
 //        double currentBalance = accountDeposit.getBalance();
-//
 //        accountDeposit.setBalance(currentBalance + amount);
 //        AccountDeposit savedAccountDeposit = depositRepository.save(accountDeposit);
 //
 //        return accountDepositMapper.accountDepositToDTO(savedAccountDeposit);
 //    }
-//
-//    @Override
-//    public AccountDepositDTO debitBalanceAccountDeposit(String iban, Double amount) {
-//
-//        AccountDeposit accountDeposit = depositRepository.getById(iban);
-//
-//        double currentBalance = accountDeposit.getBalance();
-//        accountDeposit.setBalance(currentBalance - amount);
-//        depositRepository.save(accountDeposit);
-//
-//        return accountDepositMapper.accountDepositToDTO(accountDeposit);
-//    }
 
-    @Override
-    public AccountDepositDTO updateDepositAmount(String iban, Double deposit) {
-
-        AccountDeposit depositRepositoryById = depositRepository.getById(iban);
-        double depositAmount = depositRepositoryById.getDepositAmount();
-        depositRepositoryById.setDepositAmount(depositAmount + deposit);
-
-        return accountDepositMapper.accountDepositToDTO(depositRepositoryById);
-
-    }
 }

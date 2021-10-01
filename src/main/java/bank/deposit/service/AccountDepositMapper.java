@@ -13,7 +13,7 @@ public interface AccountDepositMapper {
 
     AccountDeposit toAccountDeposit(AccountDepositDTO accountDepositDTO);
 
-    List<AccountDepositDTO> ListAccountDepositDTO(List<AccountDeposit> accountDepositList);
+    List<AccountDepositDTO> listAccountDepositDTO(List<AccountDeposit> accountDepositList);
 
 
 }

@@ -16,7 +16,7 @@ public interface AccountDepositService {
     List<AccountDepositDTO> getAllByIndividual(int individualId);
     void deleteAccountDepositByIban(String iban);
     AccountDepositDTO createIndividualAccountDeposit(int individualId, int months, int amount);
-    AccountDepositDTO updateDepositAmount(String iban, Double deposit);
+    //AccountDepositDTO creditAccountDeposit(String iban, Double amount);
 
 
 
