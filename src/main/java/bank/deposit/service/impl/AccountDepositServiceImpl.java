@@ -2,7 +2,7 @@ package bank.deposit.service.impl;
 
 
 import bank.deposit.dao.DepositRepository;
-import bank.deposit.dto.AccountDepositDTO;
+import banking.commons.dto.AccountDepositDTO;
 import bank.deposit.model.AccountDeposit;
 import bank.deposit.service.AccountDepositMapper;
 import bank.deposit.service.AccountDepositService;
@@ -14,7 +14,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static bank.deposit.idGen.IdGenerator.idGen;
-import static bank.deposit.model.Status.ACTIVE;
+import static bank.deposit.model.CurrentStatus.ACTIVE;
+
 
 @RequiredArgsConstructor
 @Service
@@ -72,7 +73,7 @@ public class AccountDepositServiceImpl implements AccountDepositService {
         accountDeposit.setSelfCapitalization(true);
         accountDeposit.setMaturityIban(accountDeposit.getIban());
         accountDeposit.setStartDate(new Date());
-        accountDeposit.setAccountDepositStatus(ACTIVE);
+        accountDeposit.setStatus(ACTIVE);
         accountDeposit.setMaturityMonths(months);
         AccountDeposit savedAccount = depositRepository.save(accountDeposit);
         AccountDepositDTO accountDepositDTO = accountDepositMapper.accountDepositToDTO(savedAccount);

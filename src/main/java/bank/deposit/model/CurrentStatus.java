@@ -1,5 +1,5 @@
 package bank.deposit.model;
 
-public enum Status {
+public enum CurrentStatus {
     ACTIVE, CLOSED
 }

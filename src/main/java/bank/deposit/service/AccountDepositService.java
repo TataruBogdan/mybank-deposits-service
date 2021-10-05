@@ -1,7 +1,7 @@
 package bank.deposit.service;
 
 
-import bank.deposit.dto.AccountDepositDTO;
+import banking.commons.dto.AccountDepositDTO;
 
 import java.util.List;
 import java.util.Optional;

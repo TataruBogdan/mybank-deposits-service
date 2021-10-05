@@ -1,5 +1,6 @@
 package bank.deposit.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,8 @@ public class AccountDeposit {
     private Date startDate;
 
     @Enumerated(EnumType.STRING)
-    private Status accountDepositStatus;
+    @Column(name = "account_deposit_status")
+    private CurrentStatus status;
     private int maturityMonths;
 
 }

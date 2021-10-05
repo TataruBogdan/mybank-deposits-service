@@ -1,6 +1,6 @@
 package bank.deposit.service;
 
-import bank.deposit.dto.AccountDepositDTO;
+import banking.commons.dto.AccountDepositDTO;
 import bank.deposit.model.AccountDeposit;
 import org.mapstruct.Mapper;
 
