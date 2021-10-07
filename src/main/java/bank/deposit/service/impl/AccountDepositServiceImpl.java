@@ -10,10 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static bank.deposit.idGen.IdGenerator.idGen;
+import static banking.commons.dto.idGen.IdGenerator.idGen;
 import static bank.deposit.model.CurrentStatus.ACTIVE;
 
 
@@ -72,24 +73,12 @@ public class AccountDepositServiceImpl implements AccountDepositService {
         accountDeposit.setInterestRate(interestRate);
         accountDeposit.setSelfCapitalization(true);
         accountDeposit.setMaturityIban(accountDeposit.getIban());
-        accountDeposit.setStartDate(new Date());
+        accountDeposit.setStartDate(LocalDateTime.now());
         accountDeposit.setStatus(ACTIVE);
         accountDeposit.setMaturityMonths(months);
         AccountDeposit savedAccount = depositRepository.save(accountDeposit);
         AccountDepositDTO accountDepositDTO = accountDepositMapper.accountDepositToDTO(savedAccount);
         return accountDepositDTO;
     }
-
-
-//    @Override
-//    public AccountDepositDTO creditAccountDeposit(String iban, Double amount) {
-//
-//        AccountDeposit accountDeposit = depositRepository.getById(iban);
-//        double currentBalance = accountDeposit.getBalance();
-//        accountDeposit.setBalance(currentBalance + amount);
-//        AccountDeposit savedAccountDeposit = depositRepository.save(accountDeposit);
-//
-//        return accountDepositMapper.accountDepositToDTO(savedAccountDeposit);
-//    }
 
 }

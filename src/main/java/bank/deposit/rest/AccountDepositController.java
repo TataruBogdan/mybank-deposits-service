@@ -40,6 +40,7 @@ public class AccountDepositController {
             accountDTO.setIndividual(individualId);
             newAccountsDeposits.add(accountDTO);
         }
+
         return ResponseEntity.ok(newAccountsDeposits);
     }
 
@@ -59,7 +60,6 @@ public class AccountDepositController {
 
     @GetMapping(value = "/individual/{individualId}")
     public ResponseEntity<List<AccountDepositDTO>> retrieveAccountDepositIndividualId(@PathVariable("individualId") int individualId){
-
         IndividualDTO individualById = individualRestClient.getIndividualById(individualId);
         List<AccountDepositDTO> accountDepositServiceByIndividual = accountDepositService.getAllByIndividual(individualId);
         if (accountDepositServiceByIndividual.isEmpty()){
@@ -68,8 +68,8 @@ public class AccountDepositController {
         for (AccountDepositDTO accountDeposit:accountDepositServiceByIndividual) {
             accountDeposit.setIndividual(individualById);
         }
-        return ResponseEntity.ok(accountDepositServiceByIndividual);
 
+        return ResponseEntity.ok(accountDepositServiceByIndividual);
     }
 
     @DeleteMapping("/delete/{iban}")
@@ -77,27 +77,12 @@ public class AccountDepositController {
         accountDepositService.deleteAccountDepositByIban(iban);
     }
 
-    //TODO - DE ADAUGAT MONTHS  si deposit amount-
     @PostMapping(value = "/create/individual/{id}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountDepositDTO> createAccountDepositForIndividual(@PathVariable("id") int individualId, @RequestBody ArgsDTO args ){
         AccountDepositDTO individualAccountDeposit = accountDepositService.createIndividualAccountDeposit(individualId, args.getMonths(), args.getAmount());
         IndividualDTO individualById = individualRestClient.getIndividualById(individualId);
         individualAccountDeposit.setIndividual(individualById);
+
         return ResponseEntity.ok(individualAccountDeposit);
     }
-
-//    @PatchMapping("credit/{iban}")
-//    public ResponseEntity<AccountDepositDTO> creditAccountDepositForIban (@PathVariable("iban") String iban ,@RequestBody CreditAmountDepositDTO amount){
-//
-//        Optional<AccountDepositDTO> accountDepositDTO = accountDepositService.getByIban(iban);
-//        IndividualDTO individualById = individualRestClient.getIndividualById(accountDepositDTO.get().getIndividualId());
-//        AccountDepositDTO creditAccountDepositDTO = accountDepositService.creditAccountDeposit(iban, amount.getAmount());
-//        creditAccountDepositDTO.setIndividual(individualById);
-//
-//        return ResponseEntity.ok(creditAccountDepositDTO);
-//    }
-
-
-
-
 }

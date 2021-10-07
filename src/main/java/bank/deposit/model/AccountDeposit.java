@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @AllArgsConstructor
@@ -27,7 +27,7 @@ public class AccountDeposit {
     private double interestRate;
     private boolean selfCapitalization;
     private String maturityIban;
-    private Date startDate;
+    private LocalDateTime startDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_deposit_status")
