@@ -1,4 +1,4 @@
-package bank.deposit.rest;
+package bank.deposit.rest.client;
 
 import banking.commons.dto.IndividualDTO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -61,13 +61,14 @@ public class AccountDepositServiceImpl implements AccountDepositService {
         depositRepository.deleteById(iban);
     }
 
+    //create a deposit at term and we make a transaction
     @Override
     public AccountDepositDTO createIndividualAccountDeposit(int individualId, int months, int amount) {
 
         AccountDeposit accountDeposit = new AccountDeposit();
         accountDeposit.setIban(idGen("DEP"));
-        accountDeposit.setDepositAmount(amount);
-        accountDeposit.setBalance(amount);
+        accountDeposit.setDepositAmount(amount); // make only one time when create the deposit account
+        accountDeposit.setBalance(amount);// make a call to the transaction microservice -> make a transaction (from ex: from AccountCurrent to Deposit)
         accountDeposit.setIndividualId(individualId);
         //TODO interestRate este o constanta in interfata AccountDepositService - value 0.05
         accountDeposit.setInterestRate(interestRate);

@@ -1,5 +1,6 @@
 package bank.deposit.rest;
 
+import bank.deposit.rest.client.IndividualRestClient;
 import banking.commons.dto.AccountDepositDTO;
 import bank.deposit.dto.ArgsDTO;
 import bank.deposit.service.AccountDepositService;
@@ -15,7 +16,6 @@ import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-
 @RestController
 @RequestMapping("/accounts-deposit")
 public class AccountDepositController {
@@ -25,7 +25,6 @@ public class AccountDepositController {
 
     @Autowired
     private IndividualRestClient individualRestClient;
-
 
     @GetMapping("/")
     public ResponseEntity<List<AccountDepositDTO>> retrieveAllAccountsDeposit(){
