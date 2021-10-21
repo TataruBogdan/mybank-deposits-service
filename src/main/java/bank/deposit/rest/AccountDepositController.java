@@ -2,7 +2,7 @@ package bank.deposit.rest;
 
 import bank.deposit.rest.client.IndividualRestClient;
 import banking.commons.dto.AccountDepositDTO;
-import bank.deposit.dto.ArgsDTO;
+import banking.commons.dto.types.ArgsDTO;
 import bank.deposit.service.AccountDepositService;
 import banking.commons.dto.IndividualDTO;
 import org.springframework.beans.factory.annotation.Autowired;

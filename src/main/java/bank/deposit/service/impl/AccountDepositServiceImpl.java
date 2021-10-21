@@ -63,7 +63,7 @@ public class AccountDepositServiceImpl implements AccountDepositService {
 
     //create a deposit at term and we make a transaction
     @Override
-    public AccountDepositDTO createIndividualAccountDeposit(int individualId, int months, int amount) {
+    public AccountDepositDTO createIndividualAccountDeposit(int individualId, int months, double amount) {
 
         AccountDeposit accountDeposit = new AccountDeposit();
         accountDeposit.setIban(idGen("DEP"));
